@@ -1,0 +1,20 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+  ios::sync_with_stdio(false);
+  freopen("in.txt", "r", stdin);
+
+  string p, str;
+  map<string,int> m;
+  while (getline(cin, p) && p != "#")
+  {
+    for (int i = 0; i < p.size(); ++i) {
+
+    }
+  }
+
+
+  return 0;
+}
