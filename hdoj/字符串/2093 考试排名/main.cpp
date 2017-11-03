@@ -8,7 +8,7 @@ struct student {
 };
 
 student stus[500];
-int n, m, index;
+int n, m, index_;
 char w[20];
 
 int cmp(const void *a, const void *b)
@@ -27,25 +27,25 @@ int main()
 
   scanf("%d%d", &n, &m);
 
-  while(scanf("%s", &stus[index].name) != -1) {
+  while(scanf("%s", &stus[index_].name) != -1) {
     for (int i = 0; i < n; ++i) {
       int s1, s2, num;
       scanf("%s", &w);
       num = sscanf(w, "%d(%d)", &s1, &s2);
 
       if (s1 > 0) {
-        stus[index].usetime += s1;
-        stus[index].qnumber++;
+        stus[index_].usetime += s1;
+        stus[index_].qnumber++;
         if (num == 2) {
-          stus[index].usetime += m*s2;
+          stus[index_].usetime += m*s2;
         }
       }
     }
-    index ++;
+    index_ ++;
   }
 
-  qsort(stus, index, sizeof(stus[0]), cmp);
-  for(int ll = 0; ll < index; ++ll) {
+  qsort(stus, index_, sizeof(stus[0]), cmp);
+  for(int ll = 0; ll < index_; ++ll) {
     printf("%-10s %2d %4d\n",stus[ll].name,stus[ll].qnumber,stus[ll].usetime);
   }
 
