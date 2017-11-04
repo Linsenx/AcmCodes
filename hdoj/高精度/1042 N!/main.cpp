@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int num[40000];
+int num[50000];
 
 int main()
 {
@@ -13,8 +13,9 @@ int main()
   
   int len, count;
   string n;
+  int nn;
   while(cin >> n) {
-    count = 0;
+    nn = stoi(n);
     memset(num, 0, 40000);
     // input the n to the array
     len = n.size();
@@ -22,14 +23,26 @@ int main()
       num[len - 1 - i] = (int)(n[i] - '0');
     
     // run N!
-    for (int j = 0; j < n - 1; j++) {
-      for (int k = 0; k < len; ++k) {
-        num[k] = num[k] * n;
+    int k = 0; //进位
+    for (int m = 1; m < nn; ++m) {
+      for (int j = 0; j < len; j++) {
+        num[j] = num[j] * m + k;
+        k = num[j] / 10;
+        num[j] = num[j] % 10;
       }
-      for (int k = 0; k < len; ++k) {
-        num[k] %= 10;
+      while (k > 0) {
+        num[len++] = k % 10;
+        k /= 10;
       }
     }
+    
+    if (nn == 0) num[0] = 1;
+
+    for (int mm = len - 1; mm >= 0; --mm) {
+      cout << num[mm];
+    }
+    
+        cout << endl;
   }
 
   return 0;
