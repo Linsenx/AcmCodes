@@ -7,8 +7,8 @@ int happy[6010];
 int dp[6010][2];
 vector<int>tree[6010];
 
-//dp[i][0] ç¼–å·içš„äººä¸å‚åŠ 
-//dp[i][1] ç¼–å·içš„äººå‚åŠ 
+//dp[i][0] ±àºÅiµÄÈË²»²Î¼Ó
+//dp[i][1] ±àºÅiµÄÈË²Î¼Ó
 void dfs(int x)
 {
   dp[x][1] = happy[x];
@@ -44,7 +44,7 @@ int main()
       tree[K].push_back(L);
     }
     
-    //æ‰¾åˆ°æ ‘çš„æ ¹t
+    //ÕÒµ½Ê÷µÄ¸ùt
     int t = 1;
     while (fa[t] != -1) t = fa[t];
     
