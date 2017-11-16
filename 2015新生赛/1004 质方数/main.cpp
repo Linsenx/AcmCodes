@@ -7,16 +7,14 @@ int zfs[1500];//1229
 
 void getprime()
 {
-  prime[1] = 1; //不是素数
-  prime[2] = 0; //是素数
+  prime[1] = 1;
+  prime[2] = 0;
   for (int i = 2; i < MAXN; ++i) {
     if (prime[i] == 0) {
       zfs[index++] = i*i;
       for (int j = i+i; j < MAXN; j += i) prime[j] = 1;
     }
   }
-
-
 }
 
 int main()
@@ -30,12 +28,11 @@ int main()
   cin >> N;
   while (N--) {
     cin >> x;
-    int pos = lower_bound(zfs, zfs+1229, x) - zfs;
-    if (abs(zfs[pos] - x) < abs(zfs[pos-1] - x)) {
+    int pos = lower_bound(zfs, zfs + 1229, x) - zfs;
+    if (abs(zfs[pos] - x) < abs(zfs[pos - 1] - x))
       cout << zfs[pos] << endl;
-    } else {
-      cout << zfs[pos-1] << endl;
-    }
+    else
+      cout << zfs[pos - 1] << endl;
   }
 
   return 0;
