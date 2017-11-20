@@ -8,7 +8,7 @@ using namespace std;
 
 int n, k, width_all;
 char block[1000][1000];
-char pic[1100][1100];
+char pic[11000][11000];
 void draw(int deep, int x, int y)
 {
   int i, j, nx, ny;
@@ -42,7 +42,7 @@ void draw(int deep, int x, int y)
 int main()
 {
 //  ios::sync_with_stdio(false);
-//  freopen("in.txt","r",stdin);
+  freopen("in.txt","r",stdin);
 
   int i, j, len;
   string line;
