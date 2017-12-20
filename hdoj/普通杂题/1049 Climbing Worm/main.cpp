@@ -8,6 +8,7 @@ int main()
   #else
     freopen("in.txt","r",stdin);
   #endif
+<<<<<<< HEAD
   
   int n, u, d, h, t;
   while (cin >> n >> u >> d && n * u * d) {
@@ -21,6 +22,13 @@ int main()
       }
       t ++;
     }
+=======
+
+  int a, b, c;
+  while (cin >> a >> b >> c && a*b*c) {
+    int d = ceil((double)(a-b)/(b-c));
+    int t = d * 2 + 1;
+>>>>>>> dbbd7cf70e1df7bd63439ae0cc5a7d3e33561bb5
     cout << t << endl;
   }
 
