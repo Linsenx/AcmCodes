@@ -2,65 +2,78 @@
 using namespace std;
 
 const int maxn = 5e4 + 10;
-int n, m, tre[maxn << 2];
+int n, m;
+struct node
+{
+  int l, r;
+  int lmax, rmax, mmax; //lmax: 从l->r连续村庄个数 rmax: 从r->l连续村庄个数 mmax: 区间最大村庄个数
+} tre[maxn << 2];
 #define lson l, m, rt << 1
 #define rson m+1, r, rt << 1 | 1
 
 void pushUp(int rt)
 {
-  tre[rt] = tre[rt << 1] && tre[rt << 1 | 1] ? tre[rt << 1] + tre[rt << 1 | 1] : 0;
+  tre[rt].lmax = tre[rt<<1].lmax;
+  tre[rt].rmax = tre[rt<<1|1].rmax;
+  tre[rt].mmax = max(tre[rt].lmax, tre[rt].rmax);
+  if (tre[rt<<1].lmax == tre[rt<<1].r - tre[rt<<1].l + 1) tre[rt].lmax += tre[rt<<1|1].lmax;
+  if (tre[rt<<1|1].rmax == tre[rt<<1|1].r - tre[rt<<1|1].l + 1) tre[rt].rmax += tre[rt<<1].rmax;
+  tre[rt].mmax = max(tre[rt].mmax, tre[rt<<1].rmax + tre[rt<<1|1].lmax);
 }
 
 void build(int l, int r, int rt)
 {
-  if (l == r) 
-  {
-    tre[rt] = 1;
-    return;
-  }
+  tre[rt].l = l;
+  tre[rt].r = r;
+  tre[rt].lmax = tre[rt].rmax = tre[rt].mmax = r - l + 1;
+  if (l == r) return;
   int m = (l+r) >> 1;
   build(lson);
   build(rson);
-  pushUp(rt);
+  //pushUp(rt);
 }
 
-void update(int p, int change, int l, int r, int rt)
+void update(int p, int x, int rt)
 {
-  
-  if (l == r)
+  if (tre[rt].l == tre[rt].r)
   {
-    tre[rt] = change;
+    if (x == 1)
+      tre[rt].lmax = tre[rt].rmax = tre[rt].mmax = 1;
+    else
+      tre[rt].lmax = tre[rt].rmax = tre[rt].mmax = 0;
     return;
   }
-  int m = (l+r) >> 1;
-  
+  int m = (tre[rt].l+tre[rt].r) >> 1;
   if (p <= m)
-    update(p, change, lson);
+    update(p, x, rt<<1);
   else
-    update(p, change, rson);
+    update(p, x, rt<<1|1);
   pushUp(rt);
 }
 
-int query(int L, int R, int l, int r, int rt)
+int query(int p, int rt)
 {
-  if (l == r)
+  if (tre[rt].l == tre[rt].r || tre[rt].mmax == 0 || tre[rt].mmax == tre[rt].r - tre[rt].l + 1)
   {
-    cout << l << ":" << tre[rt] << endl;
-    return tre[rt];
+    return tre[rt].mmax;
   }
-  int m = (l+r) >> 1;
-  int res0 = 0, res1 = 0;
-  if (R <= m)
-    res0 = query(L, R, lson);
-  else if (m < L)
-    res1 = query(L, R, rson);
-  else 
+
+  int m = (tre[rt].l+tre[rt].r) >> 1;
+  if (p <= m)
   {
-    res0 = query(L, R, lson);
-    res1 = query(L, R, rson);
-    return res0 && res1 ? res0+res1 : 0;
+    if (p >= tre[rt<<1].r - tre[rt<<1].rmax + 1)
+      return query(p, rt<<1) + query(m+1, rt<<1|1);
+    else
+      return query(p, rt<<1);
   }
-  return res0 + res1;
+  else
+  {
+    if (p <= tre[rt<<1|1].l + tre[rt<<1|1].lmax - 1)
+      return query(p, rt<<1|1) + query(m, rt<<1);
+    else
+      return query(p, rt<<1|1);
+  }
+
 }
 
 int main()
@@ -70,13 +83,13 @@ int main()
   #else
     freopen("in.txt","r",stdin);
   #endif
-  
-//  build(1,4,1);
-//  update(1,0,1,4,1);
-//  update(2,1,1,4,1);
-//  update(3,1,1,4,1);
-//  update(4,1,1,4,1);
-//  cout << query(1,4,1,4,1) ;
+
+  /*build(1,4,1);
+  update(1,0,1);
+  update(2,1,1);
+  update(3,1,1);
+  update(4,1,1);
+  cout << query(1,1) ;*/
   while (cin >> n >> m)
   {
     build(1, n, 1);
@@ -90,20 +103,20 @@ int main()
       {
         cin >> a;
         destory.push(a);
-        update(a, 0, 1, n, 1);
+        update(a, 0, 1);
       }
       else if (comm == 'R')
       {
         b = destory.top(); destory.pop();
-        update(b, 1, 1, n, 1)
+        update(b, 1, 1);
       }
       else if (comm == 'Q')
       {
         cin >> a;
-        int l = query()
+        cout << query(a, 1) << endl;
       }
     }
   }
-  
+
   return 0;
 }
